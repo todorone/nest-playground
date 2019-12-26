@@ -1,52 +1,44 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import * as uuid from 'uuid/v4'
-import { Task, TaskStatus } from './task.model'
 import { CreateTaskDto } from './dto/createTask.dto'
+import { TaskRepository } from './task.repository'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Task } from './task.entity'
+import { TaskStatus } from './taskStatus'
 
 @Injectable()
 export class TasksService {
-  private tasks: Task[] = []
+  constructor(
+    @InjectRepository(TaskRepository)
+    private taskRepository: TaskRepository
+  ) {}
 
-  getAllTasks() {
-    return this.tasks
-  }
+  // getAllTasks() {
+  //   return this.tasks
+  // }
+  //
 
-  getTaskById(id: string): Task {
-    const task = this.tasks.find(t => t.id === id)
+  async getTaskById(id: number): Promise<Task> {
+    const task = await this.taskRepository.findOne(id)
 
     if (!task) {
       throw new NotFoundException()
     } else return task
   }
 
-  deleteTask(id: string): boolean {
-    const index = this.tasks.findIndex(t => t.id === id)
-
-    if (index === -1) {
-      return false
-    } else {
-      this.tasks.splice(index, 1)
-      return true
-    }
+  async deleteTask(id: number): Promise<boolean> {
+    const result = await this.taskRepository.delete(id)
+    return result.affected > 0
   }
 
-  createTask(createTaskDto: CreateTaskDto): Task {
-    const task: Task = {
-      id: uuid(),
-      title: createTaskDto.title,
-      description: createTaskDto.description,
-      status: TaskStatus.OPEN,
-    }
-
-    this.tasks.push(task)
-    return task
+  async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
+    return this.taskRepository.createTask(createTaskDto)
   }
 
-  updateTask(id: string, patch: Partial<Task>): Task | null {
-    const task = this.getTaskById(id)
-
-    Object.entries(patch).forEach(([key, value]) => task[key] = value)
-
-    return task
-  }
+  // updateTask(id: string, patch: Partial<Task>): Task | null {
+  //   const task = this.getTaskById(id)
+  //
+  //   Object.entries(patch).forEach(([key, value]) => task[key] = value)
+  //
+  //   return task
+  // }
 }
