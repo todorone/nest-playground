@@ -1,12 +1,17 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, ParseIntPipe, Patch, Post, Query, UsePipes, ValidationPipe } from '@nestjs/common'
+import {
+  Body, Controller, Delete, Get, NotFoundException, Param, ParseIntPipe,
+  Patch, Post, Query, UseGuards, UsePipes, ValidationPipe,
+} from '@nestjs/common' // prettier-ignore
 import { TasksService } from './tasks.service'
 import { TaskStatus } from './taskStatus'
 import { CreateTaskDto } from './dto/createTask.dto'
 import { TaskStatusValidationPipe } from './pipes/taskStatusValidation.pipe'
 import { Task } from './task.entity'
 import { GetTasksFilterDto } from './dto/getTasksFilter.dto'
+import { AuthGuard } from '@nestjs/passport'
 
 @Controller('/tasks')
+@UseGuards(AuthGuard())
 export class TasksController {
   constructor(private tasksService: TasksService) {}
 
