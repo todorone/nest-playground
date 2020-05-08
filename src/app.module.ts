@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common'
-import { TasksModule } from './tasks/tasks.module';
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { GraphQLModule } from '@nestjs/graphql'
+
 import { typeOrmConfig } from './config/typeorm.config'
-import { AuthModule } from './auth/auth.module';
+import { ProfileModule } from './profile/profile.module'
 
 @Module({
   imports: [
-    // TypeOrmModule.forRoot(typeOrmConfig),
-    // TasksModule,
-    // AuthModule,
+    TypeOrmModule.forRoot(typeOrmConfig),
+    GraphQLModule.forRoot({ autoSchemaFile: true }),
+    ProfileModule,
   ],
 })
 export class AppModule {}

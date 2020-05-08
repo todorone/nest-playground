@@ -1,7 +1,7 @@
 server:
 
 db:
-  type: 'postgres'
+  type: 'mongodb'
 
 jwt:
   expiresIn: 3600
