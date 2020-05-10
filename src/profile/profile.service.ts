@@ -9,7 +9,13 @@ export class ProfileService {
     @InjectRepository(Profile) private profileRepository: Repository<Profile>,
   ) {}
 
-  createProfile() {
+  getProfile(id: string): Promise<Profile> {
+    return this.profileRepository.findOne(id)
+  }
 
+  createProfile(name: string, username: string): Promise<Profile> {
+    const profile = this.profileRepository.create({ name, username })
+
+    return this.profileRepository.save(profile)
   }
 }

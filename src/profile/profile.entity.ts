@@ -6,6 +6,9 @@ export class Profile {
   _id: string
 
   @Column()
+  created: number
+
+  @Column()
   name: string
 
   @Column()
@@ -15,5 +18,11 @@ export class Profile {
   avatar: string
 
   @Column()
-  avatarSmall: number
+  avatarSmall: string
+
+  @Column()
+  color: string
+
+  @Column()
+  qr: string
 }

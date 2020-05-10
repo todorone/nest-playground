@@ -6,6 +6,9 @@ export class ProfileType {
   id: string
 
   @Field()
+  created: number
+
+  @Field()
   name: string
 
   @Field()
@@ -16,4 +19,10 @@ export class ProfileType {
 
   @Field()
   avatarSmall: string
+
+  @Field()
+  color: string
+
+  @Field()
+  qr: string
 }
