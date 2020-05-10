@@ -1,6 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm'
 import * as config from 'config'
-import { Profile } from '../profile/profile.entity'
+import { Profile } from '../profile/profile'
 
 const dbConfig = config.get('db')
 
